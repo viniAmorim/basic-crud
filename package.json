@@ -2,10 +2,12 @@
   "name": "basic-crud",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
     "test": "echo \"Testes ainda não implementados.\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test:staged": "echo \"No tests yet\" && exit 0"
   },
   "keywords": [],
   "author": "",
@@ -19,12 +21,15 @@
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
+    "@eslint/js": "^9.24.0",
     "@types/express": "^5.0.1",
     "@typescript-eslint/eslint-plugin": "^8.30.0",
     "@typescript-eslint/parser": "^8.30.0",
     "eslint": "^9.24.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.1",
-    "typescript": "^5.8.3"
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.30.1"
   }
 }
