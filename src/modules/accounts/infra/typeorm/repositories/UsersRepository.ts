@@ -31,6 +31,21 @@ class UsersRepository implements IUsersRepository {
     const user = await this.repository.findOne({ where: { email } });
     return user;
   }
+
+  async findAll(name?: string, email?: string): Promise<User[]> {
+    const usersQuery = await this.repository.createQueryBuilder('c');
+
+    if (name) {
+      usersQuery.andWhere('c.name = :name', { name });
+    }
+    if (email) {
+      usersQuery.andWhere('c.email = :email', { email });
+    }
+
+    const users = await usersQuery.getMany();
+
+    return users;
+  }
 }
 
 export { UsersRepository };
