@@ -7,6 +7,7 @@ interface IUsersRepository {
   findById(user_id: string): Promise<User>;
   findAll(name?: string, email?: string): Promise<User[]>;
   deleteById(id: string): Promise<void>;
+  update(id: string, data: Partial<ICreateUserDTO>): Promise<User>;
 }
 
 export { IUsersRepository };

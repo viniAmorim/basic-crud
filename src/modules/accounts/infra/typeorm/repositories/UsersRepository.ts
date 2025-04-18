@@ -50,6 +50,12 @@ class UsersRepository implements IUsersRepository {
   async deleteById(id: string): Promise<void> {
     await this.repository.delete(id);
   }
+
+  async update(id: string, data: Partial<ICreateUserDTO>): Promise<User> {
+    await this.repository.update(id, data);
+
+    return this.findById(id);
+  }
 }
 
 export { UsersRepository };
