@@ -3,6 +3,7 @@ import { CreateUserController } from '../../../../modules/accounts/useCases/crea
 import { ListUsersController } from '@modules/accounts/useCases/listUsers/ListUsersController';
 import { DeleteUserController } from '@modules/accounts/useCases/deleteUser/DeleteUserController';
 import { UpdateUserController } from '@modules/accounts/useCases/updateUser/UpdateUserController';
+import { ensureAuthenticated } from '../middleware/ensureAuthenticated';
 
 const usersRoutes = Router();
 
@@ -17,6 +18,10 @@ usersRoutes.delete(
   '/:id',
   deleteUserController.handle.bind(deleteUserController),
 );
-usersRoutes.put('/:id', updateUserController.handle.bind(updateUserController));
+usersRoutes.put(
+  '/:id',
+  ensureAuthenticated,
+  updateUserController.handle.bind(updateUserController),
+);
 
 export { usersRoutes };
