@@ -13,6 +13,9 @@ class User {
   @Column()
   email: string;
 
+  @Column({ nullable: true })
+  phone?: string;
+
   @Column()
   @Exclude()
   password: string;
