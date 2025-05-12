@@ -5,11 +5,18 @@ import { UpdateUserUseCase } from './UpdateUserUseCase';
 class UpdateUserController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-    const { name, email, password } = request.body;
+    const { name, email, phone, isAdmin, password } = request.body;
 
     const updateUserUseCase = container.resolve(UpdateUserUseCase);
 
-    const user = await updateUserUseCase.execute({ id, name, email, password });
+    const user = await updateUserUseCase.execute({
+      id,
+      name,
+      email,
+      phone,
+      isAdmin,
+      password,
+    });
 
     return response.status(200).json(user);
   }
