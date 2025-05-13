@@ -5,6 +5,13 @@ import { inject, injectable } from 'tsyringe';
 interface IRequest {
   name?: string;
   email?: string;
+  page: number;
+  limit: number;
+}
+
+interface IResponse {
+  users: User[];
+  total: number;
 }
 
 @injectable()
@@ -14,10 +21,15 @@ class ListUsersUseCase {
     private usersRepository: IUsersRepository,
   ) {}
 
-  async execute({ name, email }: IRequest): Promise<User[]> {
-    const users = await this.usersRepository.findAll(name, email);
+  async execute({ name, email, page, limit }: IRequest): Promise<IResponse> {
+    const [users, total] = await this.usersRepository.findAllPaginated(
+      name,
+      email,
+      page,
+      limit,
+    );
 
-    return users;
+    return { users, total };
   }
 }
 

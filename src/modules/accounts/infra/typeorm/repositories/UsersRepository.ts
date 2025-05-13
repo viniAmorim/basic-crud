@@ -63,6 +63,33 @@ class UsersRepository implements IUsersRepository {
 
     return this.findById(id);
   }
+
+  async findAllPaginated(
+    name?: string,
+    email?: string,
+    page = 1,
+    limit = 10,
+  ): Promise<[User[], number]> {
+    const query = this.repository.createQueryBuilder('user');
+
+    if (name) {
+      query.andWhere('LOWER(user.name) LIKE LOWER(:name)', {
+        name: `%${name}%`,
+      });
+    }
+
+    if (email) {
+      query.andWhere('LOWER(user.email) LIKE LOWER(:email)', {
+        email: `%${email}%`,
+      });
+    }
+
+    query.orderBy('user.created_at', 'DESC');
+    query.skip((page - 1) * limit).take(limit);
+
+    const [users, total] = await query.getManyAndCount();
+    return [users, total];
+  }
 }
 
 export { UsersRepository };
