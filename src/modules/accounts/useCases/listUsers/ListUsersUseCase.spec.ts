@@ -28,30 +28,49 @@ describe('List Users', () => {
   });
 
   it('should list all users', async () => {
-    const users = await listUsersUseCase.execute({});
+    const { users, total } = await listUsersUseCase.execute({
+      page: 1,
+      limit: 10,
+    });
 
     expect(users.length).toBe(2);
+    expect(total).toBe(2);
     expect(users[0]).toHaveProperty('id');
     expect(users[1]).toHaveProperty('id');
   });
 
   it('should filter users by name', async () => {
-    const users = await listUsersUseCase.execute({ name: 'Alice' });
+    const { users, total } = await listUsersUseCase.execute({
+      name: 'Alice',
+      page: 1,
+      limit: 10,
+    });
 
     expect(users.length).toBe(1);
+    expect(total).toBe(1);
     expect(users[0].name).toBe('Alice');
   });
 
   it('should filter users by email', async () => {
-    const users = await listUsersUseCase.execute({ email: 'bob@example.com' });
+    const { users, total } = await listUsersUseCase.execute({
+      email: 'bob@example.com',
+      page: 1,
+      limit: 10,
+    });
 
     expect(users.length).toBe(1);
+    expect(total).toBe(1);
     expect(users[0].email).toBe('bob@example.com');
   });
 
   it('should return an empty array if no user matches the filter', async () => {
-    const users = await listUsersUseCase.execute({ name: 'NonExistent' });
+    const { users, total } = await listUsersUseCase.execute({
+      name: 'NonExistent',
+      page: 1,
+      limit: 10,
+    });
 
     expect(users).toEqual([]);
+    expect(total).toBe(0);
   });
 });

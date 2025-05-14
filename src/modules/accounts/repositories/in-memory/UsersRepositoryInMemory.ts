@@ -51,6 +51,36 @@ class UsersRepositoryInMemory implements IUsersRepository {
 
     return updatedUser;
   }
+
+  async findAllPaginated(
+    name?: string,
+    email?: string,
+    page: number = 1,
+    limit: number = 10,
+  ): Promise<[User[], number]> {
+    let filteredUsers = [...this.users];
+
+    if (name) {
+      filteredUsers = filteredUsers.filter((user) =>
+        user.name.toLowerCase().includes(name.toLowerCase()),
+      );
+    }
+
+    if (email) {
+      filteredUsers = filteredUsers.filter((user) =>
+        user.email.toLowerCase().includes(email.toLowerCase()),
+      );
+    }
+
+    const total = filteredUsers.length;
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+
+    const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
+
+    return [paginatedUsers, total];
+  }
 }
 
 export { UsersRepositoryInMemory };
